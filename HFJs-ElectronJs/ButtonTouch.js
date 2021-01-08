@@ -2,8 +2,11 @@ var Game = window.Game();
  
 var Buttons="";
  
-Game.Screen.init();
+Game.Screen.Init();
  
+let Fondo = new Game.Square(0,0,Game.Screen.W,Game.Screen.H,0,"Upper-Left","#0066ff");
+let MouseData = new Game.Text();
+let Touch = new Game.Text();
 
 function ButtonsTouch(){
 	
@@ -33,27 +36,40 @@ function ButtonsTouch(){
 	
 }
 
- 
+
  
 (function LoopGame(){
-	
-Game.Square(0,0,Game.Screen.W,Game.Screen.H,0,"#0066ff");	  
+	Game.Screen.Clear();//clear screen
+Fondo.Draw();	  
 	  
-	  ButtonsTouch();
+ButtonsTouch();
 	  
 
 
 Game.Mouse.Position(true,"grey",20,20,20);
 
 
-Game.Text("Mouse"+"| "+"X: "+Game.Mouse.PosX+" "+"Y:" +Game.Mouse.PosY,'16px Calibri','white',20,30);
+
+MouseData.Text="Mouse"+"| "+"X: "+Game.Mouse.PosX+" "+"Y:" +Game.Mouse.PosY;
+MouseData.Size= '16px';
+MouseData.Font= 'Calibri';
+MouseData.Color = 'white';
+MouseData.X = 20;
+MouseData.Y = 30;
+MouseData.Draw();
 
 
 
-Game.Text("["+Buttons+"]",'20px Calibri','white',Game.Screen.W/2,Game.Screen.H/2);
+Touch.Text="["+Buttons+"]";
+Touch.Tamano= '20px';
+Touch.Font= 'Calibri';
+Touch.Color = 'white';
+Touch.X = Game.Screen.W/2-100;
+Touch.Y = Game.Screen.H/2;
+Touch.Draw();
 	
 	
-Game.Game_loop.start(LoopGame);
+Game.Game_loop.Start(LoopGame);
 
 })();
  

@@ -2,43 +2,66 @@ var Game = window.Game();
 var Up = 38;
 var Down = 40;
 
-	var A = 65;
-	var S = 83;
+var A = 65;
+var S = 83;
 	
 var Select=0;
 
 var Trans=[];
 
+
+var Press="";
+	
+var letras=[];
+	letras[0]="A";
+	letras[1]="B";
+	letras[2]="C";
+	letras[3]="D";
+	letras[4]="E";
+	letras[5]="F";
+
+
+
+let Background;
+	
+let Debug;
+
+
+	
 for(var i=0; i<6; i++){
 	Trans[i]=false;
 		
 }
 
-var Press="";
+Game.Screen.Init();
+Game.KeyboardEvents();
+
 
 document.getElementById("body").addEventListener( "keydown", function(e){
 
 Select = event.key;
   
-  Game.Transition.resert();
+	Game.Transition.Reset();
 
 	});
-	
-var letras=[];
-letras[0]="A";
-letras[1]="B";
-letras[2]="C";
-letras[3]="D";
-letras[4]="E";
-letras[5]="F";
-function Text(){
-	
 
 	
+
+function Backgrounds(){
+	Background = new Game.Square(0,0,Game.Screen.W,Game.Screen.H,0,"Upper-Left","#0066ff");
+	Background.Draw();
+
+}
+
+function Text(){
+		
 	for(var i=0; i<6; i++){
-		Game.Debut("Transition | "+letras[i],0, 30+30*i);	
-  
+		Debug = new Game.Debug("Transition | "+letras[i],0, 30+30*i);
+		Debug.Draw();
 	}
+	
+	var Debug2 = new Game.Debug("Transition"+" "+Game.Transition.State,0, 220);
+		Debug2.Draw();
   
 	 
  }
@@ -80,20 +103,15 @@ function Transitions(){
 	}
 } 
  
- 
- function background(){
-	 Game.Square(0,0,Game.Screen.W,Game.Screen.H,0,"grey");
 
-	 
- }
-Game.Screen.init();
-Game.KeyboardEvents();	
-(function LoopGame () {
+
 	
-	background();
+(function LoopGame(){
+	Game.Screen.Clear();//clear screen
+	Backgrounds();
 	Transitions();	
 	Text();
 		 
-Game.Game_loop.start(LoopGame);
+	Game.Game_loop.Start(LoopGame);
 })();
  

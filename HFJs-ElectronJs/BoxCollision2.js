@@ -36,14 +36,15 @@ var Game = window.Game();
 	var r = false;
 	
 function background(){
-	
-	Game.Square(0,0,Game.Screen.W,Game.Screen.H,0,"#0066ff");
+	Fondo = new Game.Square(0,0,Game.Screen.W,Game.Screen.H,0,"Upper-Left","#0066ff");
+	Fondo.Draw();
 }
 
 function Text(){
-					Game.Debut("Px"+":"+Player.X,10,30);
-					Game.Debut("Py"+":"+Player.Y,10,50);
-
+			posX_Debug =  new  Game.Debug("Px"+":"+Player.X,10,30);
+			posY_Debug	= new Game.Debug("Py"+":"+Player.Y,10,50);			
+			posX_Debug.Draw();
+			posY_Debug.Draw();
 }
 
 var Player = {
@@ -54,11 +55,13 @@ var Player = {
 			R:0,
 			Speed:10,
 			color:"green",
+			p1:"",
 			init:function(){
-				Game.Square(Player.X,Player.Y,Player.W,Player.H,Player.R,Player.color);
-				
-				}
-	
+				Player.p1 = new Game.Square(Player.X, Player.Y, Player.W, Player.H, Player.R, "Upper-Left", Player.color);			
+				},
+			paint:function(){			
+				Player.p1.Draw();
+			}
 }
 
 function ObstData(){
@@ -85,11 +88,11 @@ function ObstData(){
 
 function Obst(){
 
-	for(y=0; y<5; y++){
+	for(y=0; y<4; y++){
 			
 	if(state[y]==true){
-			Game.Square(Obstaculo.X+CapaX[y], Obstaculo.Y+CapaY[y], Obstaculo.W+CapaW[y], Obstaculo.H+CapaH[y], 0, Color[y]);
-					
+		let B = new Game.Square(Obstaculo.X+CapaX[y], Obstaculo.Y+CapaY[y], Obstaculo.W+CapaW[y], Obstaculo.H+CapaH[y], 0,"Upper-Left", Color[y]);
+			B.Draw();		 
 					}
 		}
 	
@@ -117,8 +120,8 @@ if(Player.Y+Player.H>Game.Screen.H){ Player.Y=0;}
 				Player.Y-=Player.Speed;
 				
 				}else{
-					Game.Debut("Collision-U",400,30);
-					
+					 let debug1 = new Game.Debug("Collision-U",400,50);
+							debug1.Draw();
 					 }
 				
 
@@ -134,8 +137,8 @@ if(Player.Y+Player.H>Game.Screen.H){ Player.Y=0;}
 				Player.Y+=Player.Speed;
 		}
 		else{
-			Game.Debut("Collision-D",400,30);
-					
+			let debug2 = new Game.Debug("Collision-D",400,50);
+				debug2.Draw();	
 			}
 	}
 		
@@ -148,7 +151,8 @@ if(Player.Y+Player.H>Game.Screen.H){ Player.Y=0;}
 				Player.X+=Player.Speed;
 		}
 		else{
-			Game.Debut("Collision-L",400,30);
+			let debug3 = new Game.Debug("Collision-D",400,50);
+				debug3.Draw();	
 					
 					 }
 
@@ -163,7 +167,8 @@ if(Player.Y+Player.H>Game.Screen.H){ Player.Y=0;}
 				Player.X-=Player.Speed;
 		}
 		else{
-			Game.Debut("Collision-R",400,30);
+			let debug4 = new Game.Debug("Collision-D",400,50);
+				debug4.Draw();
 					
 					 }
 					
@@ -182,9 +187,7 @@ function Collision(X,Y,W,H){
 
 for(var i=0; i<5; i++){
 	
-	// Game.Debut("X"+":"+X+"-"+" "+(Obstaculo.X+CapaX[i]),480,100*i+40);
-
-	var CollisionA = Game.BoxCollision.init(
+	var CollisionA = Game.BoxCollision(
 			   
 				(Obstaculo.X+CapaX[i]), 
 				(Obstaculo.Y+CapaY[i]), 
@@ -198,22 +201,16 @@ for(var i=0; i<5; i++){
 				H
 
 			);
-
-			
-	if(!CollisionA){
-					 // return false;		
-			
-			}
+	 			if(!CollisionA){	}
 			 else{
-				
-    // Game.Square(180, 10, 250, 60, 0, "white");
-	// Game.Debut("Collision"+":"+(i+1)+"|"+CollisionA,200,50);		 
-				
-				 
-				 
-				 return true;
-				
-			 }	
+					 
+					 let debug = new  Game.Debug("Collision"+":"+(i+1),400,30);				
+						debug.Draw();
+					return true;	
+					
+					 
+					
+				 }
 
 	 
 		
@@ -224,18 +221,19 @@ for(var i=0; i<5; i++){
 
 
 
-Game.Screen.init();
+Game.Screen.Init();
 Game.KeyboardEvents();	
 
 (function LoopGame(){
+	Game.Screen.Clear();//clear screen
+	background();
+	MovePlayer();
+	Player.init();
+	Player.paint();
 
-background();
-MovePlayer();
-Player.init();
 
-
-Obst();
-ObstData();
+		Obst();
+		ObstData();
 
 
 	
@@ -243,5 +241,5 @@ Text();
 
 
 
-Game.Game_loop.start(LoopGame);
+Game.Game_loop.Start(LoopGame);
 })();

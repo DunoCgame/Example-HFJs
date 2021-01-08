@@ -24,11 +24,14 @@ var Game = window.Game();
 	var state=[];
 	
 
-	var Color = new Array(4);
+	var Color = new Array(6);
 		Color[0]="red";
 		Color[1]="pink";
 		Color[2]="orange";
 		Color[3]="grey";
+		Color[4]="purple";
+		Color[5]="white";
+		Color[6]="yellow";
 				
 	var u = false;
 	var d = false;
@@ -36,8 +39,8 @@ var Game = window.Game();
 	var r = false;
 	
 	let Fondo;
-	let posX_debut;
-	let posY_debut;
+	let posX_Debug;
+	let posY_Debug;
 function background(){
 	
 	Fondo = new Game.Square(0,0,Game.Screen.W,Game.Screen.H,0,"Upper-Left","#0066ff");
@@ -45,16 +48,16 @@ function background(){
 }
 
 function Text(){
-			posX_debug  =  new  Game.Debug("Px"+":"+Player.X,10,30);
-			posY_debug	=  new  Game.Debug("Py"+":"+Player.Y,10,50);
+			posX_Debug =  new  Game.Debug("Px"+":"+Player.X,10,30);
+			posY_Debug	= new Game.Debug("Py"+":"+Player.Y,10,50);
 			
-			posX_debug.Draw();
-			posY_debug.Draw();
+			posX_Debug.Draw();
+			posY_Debug.Draw();
 }
 
 var Player = {
-			X:0,
-			Y:0,
+			X:100,
+			Y:100,
 			W:100,
 			H:100,
 			R:0,
@@ -62,19 +65,22 @@ var Player = {
 			color:"green",
 			p1:"",
 			init:function(){
-				Player.p1 = new Game.Square(Player.X, Player.Y, Player.W, Player.H, Player.R, "Upper-Left", Player.color);
+				
+				
+	
+	Player.p1 = new Game.Circle(Player.X, Player.Y, 50, Player.color);
 				
 				},
 			paint:function(){
 				
-			Player.p1.Draw();
+				Player.p1.Draw();
 			}
 	
 }
 
 function ObstData(){
 				 
-	 for(var y=0; y<4; y++){ 	
+	 for(var y=0; y<6; y++){ 	
 				 CapaX[y]=180*y;
 				 CapaY[y]=200;
 				 CapaW[y]=100;
@@ -86,10 +92,13 @@ function ObstData(){
 
 function Obst(){
 
-	for(y=0; y<4; y++){
+	for(y=0; y<6; y++){
 			
 	if(state[y]==true){
-		let B = new Game.Square(Obstaculo.X+CapaX[y], Obstaculo.Y+CapaY[y], Obstaculo.W+CapaW[y], Obstaculo.H+CapaH[y], 0,"Upper-Left", Color[y]);
+
+			let B = new Game.Circle(Obstaculo.X+CapaX[y], Obstaculo.Y+CapaY[y], 50, Color[y]);
+			
+			
 			B.Draw();		 
 					}
 		}
@@ -137,21 +146,16 @@ function MovePlayer(){
 
 function Collision(){
 
-	for(var i=0; i<4; i++){
+	for(var i=0; i<6; i++){
 
-		var CollisionA =  Game.BoxCollision(
-									
-					Player.X+10, 
-					Player.Y+10, 
-					Player.W, 
-					Player.H,
-								
-					Obstaculo.X+CapaX[i], 
+		var CollisionA =  				
+				Game.CircleCollision(
+				
+				Player.X+10, 
+					Player.Y+10,  
+				Obstaculo.X+CapaX[i], 
 					Obstaculo.Y+CapaY[i], 
-					Obstaculo.W+CapaW[i], 
-					Obstaculo.H+CapaH[i]
-		
-				);
+				50);
 
 	if(!CollisionA){    
 					 

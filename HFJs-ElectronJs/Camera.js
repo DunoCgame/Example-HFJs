@@ -1,16 +1,13 @@
 var Game = window.Game();   
 
-var Img ="Image/Map.png";
 
 var A = 65;
 var S = 83;
 var D = 68;
 var W = 87;
 
-var ImgW=1024;
-var ImgH=768;
 
- var Letras=new Array(4);
+var Letras=new Array(4);
 	Letras[0]="A";
 	Letras[1]="S";
 	Letras[2]="D";
@@ -22,34 +19,51 @@ var Letras2=new Array(4);
 	Letras2[2]="Left";
 	Letras2[3]="Up";
 	
-var Obtaculos={ X:0, Y:0, W:100, H:100}
-	
+//player
+let Img_Background;
+let Img ="Image/Map.png";
+let ImgW=1024;
+let ImgH=768;
+
+
+let Camera_Data = new Game.Text();
+
+let Canvalimiti;
+
 function Background(){
-		Game.Images(0,0, ImgW, ImgH  ,Img);
-			
-		
+		Img_Background = new Game.Images(0,0, ImgW, ImgH, Img,  "Upper-Left");
+		Img_Background.Draw();
  }
  
-var Player = {
-	X:0,
-	Y:0,
+let Player = {
+	X:10,
+	Y:10,
 	W:80,
 	H:80,
 	R:0,
 	Speed:10,
 	url:"Image/nave.png",
     color:"orange",
+	generate:new Game.Images(),
+	construct:function(){
+			Player.generate.X=Player.X;
+			Player.generate.Y=Player.Y;
+			Player.generate.W=Player.W;
+			Player.generate.H=Player.H;
+			Player.generate.Url=Player.url;
+			Player.generate.Point="Upper-Left";
+			Player.generate.Draw();
+		
+	},
 	init:function(){
 		
 		if(Game.Camera.state!=true){
-			// Game.Square(Player.X, Player.Y, Player.W, Player.H, Player.R, Player.color);
-			Game.Images(Player.X, Player.Y, Player.W, Player.H, Player.url);
-
+	
+			Player.construct();
+			
+			
 		}else{
-
-			// Game.Square(Player.X, Player.Y, Player.W, Player.H, Player.R, Player.color);
-			Game.Images(Player.X, Player.Y, Player.W, Player.H, Player.url);
-
+				Player.construct();
 		}
 	
 		
@@ -57,6 +71,7 @@ var Player = {
 }
 
 function MovePlayer(){
+	
 
 	if(Keyboard[W] == true){
 
@@ -84,45 +99,34 @@ function MovePlayer(){
 
 					
 		 }
+		 
+		 if(Player.X>= ImgW){	Player.X=10;	 }
+		 if(Player.X==0){	Player.X = ImgW-Player.W;	 }
+		 
+		 
+		 if(Player.Y==0){	Player.Y = ImgH-Player.H;	 }
+		 if(Player.Y>= ImgH){	Player.Y=10;	 }
+		 
 		
 		
 }
 
-function Text(){
-	
 
-	// Game.Debut("Px"+":"+Player.X,10,30);
-	// Game.Debut("Py"+":"+Player.Y,10,50);
-
-					
-	//Guias
-	// Game.Square(Game.Screen.W/2, 0, 2, Game.Screen.H, 0, "white");
-	// Game.Square(0, Game.Screen.H/2, Game.Screen.W, 2, 0, "white");
-		
-	// Game.Square(0, Game.Screen.H, Game.Screen.W, 2, 0, "white");
-	// Game.Square(Game.Screen.W, 0, 2, Game.Screen.H, 0, "white");
-	
-	
-	for(var i=0; i<3; i++){
-	
-	Game.Square(Obtaculos.X+102,Obtaculos.Y+0,Obtaculos.W,Obtaculos.H,0,"rgba(204, 204, 204,0.2)");
-	Game.Text(Letras[3],'30px Calibri',"black",Obtaculos.X+102,Obtaculos.Y+30);
-	Game.Text(Letras2[3],'30px Calibri',"black",Obtaculos.X+102,Obtaculos.Y+50);
-
-	Game.Square(Obtaculos.X+102*i,Obtaculos.Y+105,Obtaculos.W,Obtaculos.H,0,"rgba(204, 204, 204,0.2)");
-	Game.Text(Letras[i],'30px Calibri',"black",Obtaculos.X+102*i,Obtaculos.Y+140);
-	Game.Text(Letras2[i],'30px Calibri',"black",Obtaculos.X+102*i,Obtaculos.Y+165);
-}
+let Text_Screen = new Game.Text();
+let Text_Player = new Game.Text();
 
 
-}
+ var obj = new Game.Square(0, 0, 100, 100, 0, "Upper-Left","black");
 
- Game.Screen.init();
+
+ Game.Screen.Init();
  Game.KeyboardEvents();	
+
 
 (function LoopGame(){
 
 ctx = Game.Screen.context; //import use the contex "Canvas"
+Game.Screen.Clear();//clear screen
 
 MovePlayer();
 
@@ -132,13 +136,32 @@ ctx.save();
 	Player.init();	
 ctx.restore();		
 	
+	
+	
+	Text_Player.X=100;
+	Text_Player.Y=50;
+	Text_Player.Text = "PlayerX"+" "+Player.X +"|"+ "PlayerY"+" "+Player.Y;
+	Text_Player.Size = '20px';
+	Text_Player.Font = 'Calibri';
+	Text_Player.Colour = 'white';
+	Text_Player.Draw();
+	
+	
+	
+	Text_Screen.X=0;
+	Text_Screen.Y=80;
+	Text_Screen.Text = "ScreenW"+" "+Game.Screen.W+" | "+"ScreenH"+" "+Game.Screen.H+" | "+"mapW"+" "+ImgW+" | "+"mapH"+" "+ImgH;
+	Text_Screen.Size = '20px';
+	Text_Screen.Font = 'Calibri';
+	Text_Screen.Colour = "white";
+	Text_Screen.Draw();
+	
 
-//Interfaz
-Text();
 	
 	
 	
-	Game.Game_loop.start(LoopGame);
+	
+	Game.Game_loop.Start(LoopGame);
 })();
 
 // LoopGame();

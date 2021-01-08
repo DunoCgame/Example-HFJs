@@ -2,9 +2,12 @@ var Game = window.Game();
  
 var Buttons="";
  
-Game.Screen.init();
+Game.Screen.Init();
 
-Game.SurfaceTouch.init("canvas");
+Game.SurfaceTouch.Init();
+
+let Fondo = new Game.Square(0,0,Game.Screen.W,Game.Screen.H,0,"Upper-Left","#0066ff");
+let TextTouch = new Game.Text();
 
 
 function ButtonsTouch(){
@@ -12,6 +15,7 @@ function ButtonsTouch(){
 	var Button1 = new Game.MovilTouchButton(100,100,100,100,50,"red");
 	var Button2 = new Game.MovilTouchButton(300,100,100,100,50,"green");
 	var Button3 = new Game.MovilTouchButton(500,100,100,100,50,"purple");
+	
 		if(Button1.Action()==true){		
 					Buttons="BUTTON 1";	
 		}
@@ -29,22 +33,24 @@ function ButtonsTouch(){
 		}
 }
 
+
+
 (function LoopGame(){
-
-	Game.Square(0,0,Game.Screen.W,Game.Screen.H,0,"#0066ff");	  
-
-
+Game.Screen.Clear();//clear screen
+	Fondo.Draw();
 	ButtonsTouch();
+	
+
+	TextTouch.Text="["+Buttons+"]";
+	TextTouch.Size= '20px';
+	TextTouch.Font= 'Calibri';
+	TextTouch.Colour = 'white';
+	TextTouch.X = Game.Screen.W/2;
+	TextTouch.Y = Game.Screen.H/2;
+	TextTouch.Draw();
 
 
-	Game.Text("MouseT"+"| "+"X: "+Game.SurfaceTouch.X+" "+"Y:" +Game.SurfaceTouch.Y,'20px Calibri','white',20,30);
-	Game.Text("Press"+":"+"["+Buttons+"]",'20px Calibri','white',Game.Screen.W/2,Game.Screen.H/2+100);	
-	Game.Text("Touch",'60px Calibri','white',Game.Screen.W/2,Game.Screen.H/2);
-			
-
-
-
-	Game.Game_loop.start(LoopGame);
+	Game.Game_loop.Start(LoopGame);
 
 })();
  

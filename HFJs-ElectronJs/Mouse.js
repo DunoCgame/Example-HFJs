@@ -1,30 +1,39 @@
 var Game = window.Game();   
 
- 
- var Text="HorizonFrontierJs";
- 
- 
+ Game.Screen.Init();
  
 
- Game.Screen.init();
+var Hello="HorizonFrontierJs";
  
+let Texts = new Game.Text(Hello,'70px', 'Calibri','white',Game.Screen.W/2-250,Game.Screen.H/2); 
+ 
+let Textmouse = new Game.Text();
+
+let Fondo = new Game.Square(0,0,Game.Screen.W,Game.Screen.H,0,"Upper-Left","#0066ff");
+
 
 
  
  
 (function LoopGame(){
-	
-Game.Square(0,0,Game.Screen.W,Game.Screen.H,0,"#0066ff");
+	Game.Screen.Clear();//clear screen
+	Fondo.Draw();
 
-  
-	  
-	  
-Game.Mouse.Position(true,"grey",20,20,20);
+		
+	Game.Mouse.Position(false,"grey",20,20,20);
 
+	Texts.Draw();
 
-Game.Text("Mouse"+"| "+"X: "+Game.Mouse.PosX+" "+"Y:" +Game.Mouse.PosY,'16px Calibri','white',20,30);
-	
-Game.Game_loop.start(LoopGame);
+	Textmouse.Text ="Mouse"+"| "+"X: "+Game.Mouse.PosX+" "+"Y:" +Game.Mouse.PosY;
+	Textmouse.Size = '16px';
+	Textmouse.Font = 'Calibri';
+	Textmouse.Colour = 'white';
+	Textmouse.X = 20;
+	Textmouse.Y = 30;
+	Textmouse.Draw();
+
+		
+	Game.Game_loop.Start(LoopGame);
 
 })();
  

@@ -1,12 +1,12 @@
 {
   "name": "Example-HFjs",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "keywords": ["electron", "node" ],
+  "keywords": ["electron", "node", "HorizonFrontierjs" ],
   "author": "Luis Edgardo Duno Castellano <luisdunocastellano@gmail.com>",
   "license": "MIT",
   "dependencies": {}

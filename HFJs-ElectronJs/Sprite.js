@@ -1,4 +1,8 @@
 var Game = window.Game();
+Game.Screen.Init();
+Game.KeyboardEvents();
+
+
 
 var Player={x:0,y:0,X:0,Y:330,W:200,H:200, url:"Image/Sprite.png"};
 var Obtaculos={ X:0, Y:0, W:100, H:100}
@@ -6,30 +10,30 @@ var Vx=10;
 var Vy=10;
 var Animacion=0;
 
-var Intro  =   new Game.Sound('Sound/Intro.wav');
-var Pasos  =   new Game.Sound('Sound/Cordero.wav');
-var Saltos =   new Game.Sound('Sound/Salto.wav');
-var Enter  =   new Game.Sound('Sound/Enter.wav');
+var Intro  =   new Game.Sound('Sound/Intro.wav',false, false, 1);
+var Pasos  =   new Game.Sound('Sound/Cordero.wav',false, false, 1);
+var Saltos =   new Game.Sound('Sound/Salto.wav',false, false, 1);
+var Enter  =   new Game.Sound('Sound/Enter.wav',false, false, 1);
 
 
 
 var AminacionPlayerLeft=new Array(3);
-AminacionPlayerLeft[0]=0;
-AminacionPlayerLeft[1]=200;
-AminacionPlayerLeft[2]=400;
+	AminacionPlayerLeft[0]=0;
+	AminacionPlayerLeft[1]=200;
+	AminacionPlayerLeft[2]=400;
 
 var AminacionPlayerLeft_up=new Array(2);
-AminacionPlayerLeft_up[0]=0;
-AminacionPlayerLeft_up[1]=200;
+	AminacionPlayerLeft_up[0]=0;
+	AminacionPlayerLeft_up[1]=200;
 
 var AminacionPlayerRight=new Array(3);
-AminacionPlayerRight[0]=400;
-AminacionPlayerRight[1]=200;
-AminacionPlayerRight[2]=0;
+	AminacionPlayerRight[0]=400;
+	AminacionPlayerRight[1]=200;
+	AminacionPlayerRight[2]=0;
 
 var AminacionPlayerRight_up=new Array(2);
-AminacionPlayerRight_up[0]=200;
-AminacionPlayerRight_up[1]=0;
+	AminacionPlayerRight_up[0]=200;
+	AminacionPlayerRight_up[1]=0;
 
 
 
@@ -38,13 +42,13 @@ AminacionPlayerRight_up[1]=0;
 var Obstacles={ X:0, Y:0, W:100, H:100};
 var Obstacleslength=6;
 var ImageObstacles=new Array(6);
-ImageObstacles[0]="Image/Terreno1.png";
-ImageObstacles[1]="Image/Terreno2.png";
-ImageObstacles[2]="Image/Nuve.png";
-ImageObstacles[3]="Image/Arbol.png";
-ImageObstacles[4]="Image/Nuve1.png";
-ImageObstacles[5]="Image/Nuve2.png";
-ImageObstacles[6]="Image/Montana.png";
+	ImageObstacles[0]="Image/Terreno1.png";
+	ImageObstacles[1]="Image/Terreno2.png";
+	ImageObstacles[2]="Image/Nuve.png";
+	ImageObstacles[3]="Image/Arbol.png";
+	ImageObstacles[4]="Image/Nuve1.png";
+	ImageObstacles[5]="Image/Nuve2.png";
+	ImageObstacles[6]="Image/Montana.png";
 
 /*Fondo*/ /*Fondo*/ /*Fondo*/ /*Fondo*/
 
@@ -67,19 +71,48 @@ var Pos=1;
 var G=false;
 var Salto=false;
 
+let background = new Game.Square(0,0,Game.Screen.W,Game.Screen.H,0,"Upper-Left","#2ba0e4");
+let Circle1 = new Game.Circle(100, 100, 60, "#ffe680");
+let Circle2 = new Game.Circle(100, 100, 60, "#ffff80");
+
+
+
+	let ImgObstacle1 = new Game.Images();
+	let ImgObstacle2 = new Game.Images();
+	let ImgObstacle3 = new Game.Images();
 	
+
 
 function Background_Game(){
 
-Game.Square(0,0,Game.Screen.W,Game.Screen.H,0,"#2ba0e4");
-Game.Circle(100, 100, 60, 0, "#ffe680");
-Game.Circle(100, 100, 55, 0, "#ffff80");
+background.Draw();
+Circle1.Draw();
+Circle2.Draw();
 	
-	Game.Images(0,-50,960,540,ImageObstacles[6]);
+
+		ImgObstacle1.X=0;
+		ImgObstacle1.Y=-59;
+		ImgObstacle1.W=960;
+		ImgObstacle1.H=540;
+		ImgObstacle1.Url=ImageObstacles[6];
+		ImgObstacle1.Draw();
 	
+		
 	for(var i=0; i<5; i++){
-		Game.Images(0+240*i,0,200,200,ImageObstacles[4]);
-		Game.Images(0+120*i,20,220,200,ImageObstacles[5]);
+
+		ImgObstacle1.X=0+240*i;
+		ImgObstacle1.Y=0;
+		ImgObstacle1.W=200;
+		ImgObstacle1.H=200;
+		ImgObstacle1.Url=ImageObstacles[4];
+		ImgObstacle1.Draw();
+		///////////////////////////
+		ImgObstacle1.X=0+120*i;
+		ImgObstacle1.Y=20;
+		ImgObstacle1.W=220;
+		ImgObstacle1.H=200;
+		ImgObstacle1.Url=ImageObstacles[5];
+		ImgObstacle1.Draw();
 		
 	}
 }
@@ -89,8 +122,9 @@ Game.Circle(100, 100, 55, 0, "#ffff80");
 	/******************Player******************/
 function Players(){
 	
-Game.Sprite(Player.x,Player.y,Player.X,Player.Y,Player.W,Player.H,Player.url);
+var P = new Game.Sprite(Player.x, Player.y, Player.X, Player.Y, Player.W, Player.H, Player.url);
 
+P.Draw();
 }
 
 /******************Player******************/
@@ -99,8 +133,14 @@ function ground(){
 
 	for(var i=0; i<12; i++){
 		
-	Game.Images(Obstacles.X+Obstacles.W*i,Obstacles.Y+Game.Screen.H-100,Obstacles.W,Obstacles.H,ImageObstacles[0]);
-	
+	let Img = new Game.Images(
+			Obstacles.X+Obstacles.W*i,
+			Obstacles.Y+Game.Screen.H-100,
+			Obstacles.W,
+			Obstacles.H,
+			ImageObstacles[0]
+			,0);
+	Img.Draw();
 
 	}
 }
@@ -152,7 +192,7 @@ function Move(){
 				
 			}
 			if(Salto==false && Player.Y<330){
-				Player.Y+=Game.Gravity.init(true,30);
+				Player.Y+=Game.Gravity(true,30);
 				Player.x=AminacionPlayerLeft_up[1];
 				
 			}
@@ -171,7 +211,7 @@ function Move(){
 				
 			}
 			if(Salto==false && Player.Y<330){
-				Player.Y+=Game.Gravity.init(true,30);
+				Player.Y+=Game.Gravity(true,30);
 				Player.x=AminacionPlayerRight_up[1];
 				
 			}
@@ -185,12 +225,12 @@ if(Keyboard[87]==true && Player.Y>200  ){
 
 		Salto=true;			
 		
-		Saltos.play();
+		Saltos.Play();
 		Animacion_UP();
-
+Saltos.Stop();
 }
 else{ 
-	Saltos.stop();
+	
 }
 
 if(Keyboard[83]==true  && Player.Y+Player.H<window.Game.Screen.Canvas.height ){
@@ -206,7 +246,7 @@ if(Keyboard[68]==true  && Player.X+Player.W<Game.Screen.Canvas.width ){
 	
   
 		Player.X+=Vx;
-		Pasos.play();
+		Pasos.Play();
 		Player.x=AminacionPlayerLeft[Animacion];
 		
 		Animacion_Left();
@@ -215,12 +255,12 @@ if(Keyboard[68]==true  && Player.X+Player.W<Game.Screen.Canvas.width ){
 
 }
 else{ 
-		Pasos.stop();
+		Pasos.Stop();
 }
 
 if(Keyboard[65]==true  && Player.X!=0 ){
 		 Player.X-=Vx;
-		 Pasos.play();
+		 Pasos.Play();
 		 Player.x=AminacionPlayerRight[Animacion];
 		 
 		 Animacion_Right();
@@ -229,45 +269,56 @@ Pos=2;
 		
 
 }else{ 
-Pasos.stop();
+Pasos.Stop();
 }
 
 
 
 	
 	
-}//fin moveAbove
+}
+//fin moveAbove
 
 
 function IntroGame(){
 
 for(var i=0; i<3; i++){
 	
-	Game.Square(Obtaculos.X+102,Obtaculos.Y+0,Obtaculos.W,Obtaculos.H,0,"rgba(204, 204, 204,0.5)");
-	Game.Text(Letras[3],'30px Calibri',"black",Obtaculos.X+102,Obtaculos.Y+30);
-	Game.Text(Letras2[3],'30px Calibri',"black",Obtaculos.X+102,Obtaculos.Y+50);
-
-	Game.Square(Obtaculos.X+102*i,Obtaculos.Y+105,Obtaculos.W,Obtaculos.H,0,"rgba(204, 204, 204,0.5)");
-	Game.Text(Letras[i],'30px Calibri',"black",Obtaculos.X+102*i,Obtaculos.Y+140);
-	Game.Text(Letras2[i],'30px Calibri',"black",Obtaculos.X+102*i,Obtaculos.Y+165);
+	let A = new Game.Square(Obtaculos.X+102,Obtaculos.Y+0,Obtaculos.W,Obtaculos.H,0, "Upper-Left", "rgba(204, 204, 204,0.5)");
+	A.Draw();
+	let B = new Game.Text(Letras[3],'30px',' Calibri',"black",Obtaculos.X+102,Obtaculos.Y+30);
+	B.Draw();
+	let C = new Game.Text(Letras2[3],'30px',' Calibri',"black",Obtaculos.X+102,Obtaculos.Y+50);
+	C.Draw();
+	
+	let D = new Game.Square(Obtaculos.X+102*i,Obtaculos.Y+105,Obtaculos.W,Obtaculos.H, 0, "Upper-Left", "rgba(204, 204, 204,0.5)");
+	D.Draw();
+	let E = new Game.Text(Letras[i],'30px',' Calibri',"black",Obtaculos.X+102*i,Obtaculos.Y+140);
+		E.Draw();
+	let F = new Game.Text(Letras2[i],'30px',' Calibri',"black",Obtaculos.X+102*i,Obtaculos.Y+165);
+		F.Draw();
 }
 
-	Game.Time.Interval(5,10,true);
+Game.Time.Interval(5,10,true);
 	if(Game.Time.state==true){
 		
-	Game.Text("Press Enter",'40px Calibri',"grey",Game.Screen.Canvas.width/2-100,Game.Screen.Canvas.height/2+50);
-	Game.Text("Press ESC",'40px Calibri',"grey",Game.Screen.Canvas.width/2-100,Game.Screen.Canvas.height/2+85);
-		
-	}else{
+	let G= new Game.Text("Press Enter",'40px',' Calibri',"grey",Game.Screen.Canvas.width/2-100,Game.Screen.Canvas.height/2+50);
+		G.Draw();
+	let H = new Game.Text("Press ESC",'40px',' Calibri',"grey",Game.Screen.Canvas.width/2-100,Game.Screen.Canvas.height/2+85);
+		H.Draw();
+	}
+	else{
 			
-	Game.Text("Press Enter",'40px Calibri',"White",Game.Screen.Canvas.width/2-100,Game.Screen.Canvas.height/2+50);
-	Game.Text("Press ESC",'40px Calibri',"White",Game.Screen.Canvas.width/2-100,Game.Screen.Canvas.height/2+85);
-	
+	let I = new Game.Text("Press Enter",'40px',' Calibri',"White",Game.Screen.Canvas.width/2-100,Game.Screen.Canvas.height/2+50);
+		I.Draw();
+	let J = new Game.Text("Press ESC",'40px',' Calibri',"White",Game.Screen.Canvas.width/2-100,Game.Screen.Canvas.height/2+85);
+		J.Draw();
 	}
 	
 	if(Keyboard[13]==true){	
+		
 						Scene=2;
-						Enter.play();
+						Enter.Play();
 	}
 	if(Keyboard[27]==true){
 		
@@ -282,26 +333,23 @@ for(var i=0; i<3; i++){
 function Pass(){
 
 	Game.Transition.F("black");
-	if(Game.Transition.state==true){
-		Game.Time.Delay(20,Game.Transition.state==true);
+	if(Game.Transition.State==true){
+		Game.Time.Delay(20,Game.Transition.State==true);
 	}
-	if(Game.Time.state==true){	
-								Scene=3;
+	if(Game.Time.State==true){	
+				Scene=3;
 	}
 }
-
-Game.Screen.init();
-Game.KeyboardEvents();
 
 
 
 (function startGame(){
-
+Game.Screen.Clear();//clear screen
 		
 
 switch(Scene){
 	case 1:
-		Intro.play();
+	Intro.Play();
 		
 	Background_Game();
 	ground();
@@ -309,8 +357,8 @@ switch(Scene){
 
 	break;
 	case 2:
-		Intro.stop();
-		Enter.stop();
+		Intro.Stop();
+		Enter.Stop();
 	Pass();
 	break;
 	case 3:
@@ -325,7 +373,9 @@ switch(Scene){
 	
 }
 
-Game.Game_loop.start(startGame);
+
+
+Game.Game_loop.Start(startGame);
 
  })();
  
