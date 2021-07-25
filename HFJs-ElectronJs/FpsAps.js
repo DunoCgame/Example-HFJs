@@ -8,17 +8,14 @@ let Texto_Screen2 = new Game.Text(Hola,'70px',' Calibri','white',Game.Screen.W/2
 let Fondo = new Game.Square(0,0,Game.Screen.W,Game.Screen.H,0,"Upper-Left","#0066ff");
 
 
-
-
-
-
-(function LoopGame(){
+(function LoopGame(time){
+	
 	Game.Screen.Clear();//clear screen
-Fondo.Draw();
+	Fondo.Draw();
 	
-Game.Time.Interval(5,10,true);
+	Game.Time.Interval(5,10,true);
 	
-Game.Time.Interval(5,10,true);
+	Game.Time.Interval(5,10,true);
 		
 		if(Game.Time.State==true){
 				Texto_Screen1.Draw();
@@ -30,7 +27,7 @@ Game.Time.Interval(5,10,true);
 			}
 		  
 	  
-Game.Game_loop.Start(LoopGame,true);
+	Game.Game_loop.Start(LoopGame,true,time);
 
 })();
  

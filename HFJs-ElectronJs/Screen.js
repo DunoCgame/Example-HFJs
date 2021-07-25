@@ -1,5 +1,7 @@
 let Game = window.Game(); 
   
+ 
+  
 Game.Screen.Init();
 
 let Hola="HorizonFrontierJs";
@@ -31,3 +33,5 @@ Game.Game_loop.Start(LoopGame);
 
 })();
  
+ 
+ document.getElementsByClassName

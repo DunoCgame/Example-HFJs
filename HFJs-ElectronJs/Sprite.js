@@ -68,8 +68,6 @@ var Letras2=new Array(4);
 	
 	
 var Pos=1;
-var G=false;
-var Salto=false;
 
 let background = new Game.Square(0,0,Game.Screen.W,Game.Screen.H,0,"Upper-Left","#2ba0e4");
 let Circle1 = new Game.Circle(100, 100, 60, "#ffe680");
@@ -85,10 +83,9 @@ let Circle2 = new Game.Circle(100, 100, 60, "#ffff80");
 
 function Background_Game(){
 
-background.Draw();
-Circle1.Draw();
-Circle2.Draw();
-	
+		background.Draw();
+		Circle1.Draw();
+		Circle2.Draw();
 
 		ImgObstacle1.X=0;
 		ImgObstacle1.Y=-59;
@@ -120,11 +117,9 @@ Circle2.Draw();
 /*Fondo*/ /*Fondo*/ /*Fondo*/ /*Fondo*/ 
 	
 	/******************Player******************/
-function Players(){
-	
-var P = new Game.Sprite(Player.x, Player.y, Player.X, Player.Y, Player.W, Player.H, Player.url);
-
-P.Draw();
+function Players(){	
+	var P = new Game.Sprite(Player.x, Player.y, Player.X, Player.Y, Player.W, Player.H, Player.url);
+	P.Draw();
 }
 
 /******************Player******************/
@@ -135,9 +130,9 @@ function ground(){
 		
 	let Img = new Game.Images(
 			Obstacles.X+Obstacles.W*i,
-			Obstacles.Y+Game.Screen.H-100,
+			Obstacles.Y+Game.Screen.H-150,
 			Obstacles.W,
-			Obstacles.H,
+			Obstacles.H+70,
 			ImageObstacles[0]
 			,0);
 	Img.Draw();
@@ -147,20 +142,20 @@ function ground(){
 /*************Fondo**************/
 
 function Animacion_UP(){
-	if(Pos==1 && Salto==true){
-		
-		Player.y=200;
+		if(Pos==1 && Salto==true){
+			
+			Player.y=200;
 
-	}
-if(Pos==2){
-	Player.y=600;
-	
 		}
+		if(Pos==2){
+			Player.y=600;
+			
+				}
 }
 
 function Animacion_Left(){
-	Player.y=0;
-	Animacion+=1;
+		Player.y=0;
+		Animacion+=1;
 
 		if(Animacion==2){
 					Animacion=0;
@@ -182,56 +177,8 @@ function Animacion_Right(){
 
 
 function Move(){
-		if(Pos==1){	
-			if(Salto==true && Player.Y>200){
-				Player.Y-=50;
-				Player.x=AminacionPlayerLeft_up[0];
-			}
-			if(Player.Y<=200){
-				Salto=false;
-				
-			}
-			if(Salto==false && Player.Y<330){
-				Player.Y+=Game.Gravity(true,30);
-				Player.x=AminacionPlayerLeft_up[1];
-				
-			}
-			if(Player.Y>=330){
-				Player.y=0;
-				Player.x=AminacionPlayerLeft[0];
-			}
-		}
-	if(Pos==2){	
-			if(Salto==true && Player.Y>200){
-				Player.Y-=50;
-				Player.x=AminacionPlayerRight_up[0];
-			}
-			if(Player.Y<=200){
-				Salto=false;
-				
-			}
-			if(Salto==false && Player.Y<330){
-				Player.Y+=Game.Gravity(true,30);
-				Player.x=AminacionPlayerRight_up[1];
-				
-			}
-			if(Player.Y>=330){
-				Player.y=400;
-				Player.x=AminacionPlayerRight[0];
-			}
-		}
-	
-if(Keyboard[87]==true && Player.Y>200  ){
 
-		Salto=true;			
-		
-		Saltos.Play();
-		Animacion_UP();
-Saltos.Stop();
-}
-else{ 
-	
-}
+
 
 if(Keyboard[83]==true  && Player.Y+Player.H<window.Game.Screen.Canvas.height ){
 
@@ -253,10 +200,9 @@ if(Keyboard[68]==true  && Player.X+Player.W<Game.Screen.Canvas.width ){
 		Pos=1;
 		
 
-}
-else{ 
-		Pasos.Stop();
-}
+}else{ 
+			Pasos.Stop();
+	}
 
 if(Keyboard[65]==true  && Player.X!=0 ){
 		 Player.X-=Vx;
@@ -268,8 +214,9 @@ if(Keyboard[65]==true  && Player.X!=0 ){
 Pos=2;
 		
 
-}else{ 
-Pasos.Stop();
+}
+else{ 
+	Pasos.Stop();
 }
 
 
@@ -299,7 +246,8 @@ for(var i=0; i<3; i++){
 		F.Draw();
 }
 
-Game.Time.Interval(5,10,true);
+	Game.Time.Interval(5,10,true);
+	
 	if(Game.Time.state==true){
 		
 	let G= new Game.Text("Press Enter",'40px',' Calibri',"grey",Game.Screen.Canvas.width/2-100,Game.Screen.Canvas.height/2+50);
@@ -349,23 +297,21 @@ Game.Screen.Clear();//clear screen
 
 switch(Scene){
 	case 1:
-	Intro.Play();
-		
-	Background_Game();
-	ground();
-	IntroGame();
-
+		// Intro.Play();	
+		Background_Game();
+		ground();
+		IntroGame();
 	break;
 	case 2:
-		Intro.Stop();
-		Enter.Stop();
-	Pass();
+		// Intro.Stop();
+		// Enter.Stop();
+		Pass();
 	break;
 	case 3:
-	Background_Game();
-	Move();
-	ground();
-	Players();
+		Background_Game();
+		Move();
+		ground();
+		Players();
 	break;
 	
 	
