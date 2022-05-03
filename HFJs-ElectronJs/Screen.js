@@ -34,4 +34,3 @@ Game.Game_loop.Start(LoopGame);
 })();
  
  
- document.getElementsByClassName
